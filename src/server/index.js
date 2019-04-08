@@ -15,6 +15,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cookieParser());
 
+// serve files from the dist directory
+server.use(express.static('dist'));
+
 const mongo_uri = 'mongodb://localhost/react-auth';
 mongoose.connect(mongo_uri, { useNewUrlParser: true }, function(err) {
   if (err) {
@@ -22,13 +25,6 @@ mongoose.connect(mongo_uri, { useNewUrlParser: true }, function(err) {
   } else {
     console.log(`Successfully connected to ${mongo_uri}`);
   }
-});
-
-app.use(express.static(path.join(__dirname, 'public')));
-
-
-app.get('/', function(req, res) {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 app.get('/api/home', function(req, res) {
